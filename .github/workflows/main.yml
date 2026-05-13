@@ -1,8 +1,8 @@
-name: CI/CD Pipeline
+name: CI-Pipeline
 
 on:
   push:
-    [cite_start]branches: [ main ] # Пайплайн запускается при пуше в основную ветку [cite: 11]
+    branches: [ main, master ] # Сработает и на main, и на master
 
 jobs:
   build-and-test:
@@ -11,27 +11,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install dependencies
+      - name: Install
         run: npm install
 
-      - name: Run Tests
-        [cite_start]run: npm test # Этап автоматических тестов [cite: 13]
-
-  deploy:
-    [cite_start]needs: build-and-test # Деплой только после успешных тестов [cite: 19]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+      - name: Test
+        run: npm test

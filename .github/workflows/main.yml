@@ -1,23 +1,23 @@
-name: CI-Pipeline
+name: CI-CD-Pipeline
 
 on:
   push:
-    branches: [ main, master ] # Сработает и на main, и на master
+    branches: [ main ] # запускать при пуше в любую из этих веток
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Копируем код в облако
         uses: actions/checkout@v3
 
-      - name: Setup Node
+      - name: Устанавливаем Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Install
+      - name: Устанавливаем зависимости (Jest)
         run: npm install
 
-      - name: Test
+      - name: Запускаем тесты
         run: npm test
